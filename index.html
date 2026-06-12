@@ -6,9 +6,7 @@
   <title>Chanveersingh — Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
-    /* =========================================================
-       🎨 DESIGN TOKENS — iOS 27 Glass / Dark Theme
-       ========================================================= */
+  
     :root {
       --bg-base:        #0a0a0a;
       --bg-deep:        #050505;
@@ -26,8 +24,8 @@
       --radius-lg:      32px;
       --radius-xl:      48px;
 
-      /* ── 🔧 CHANGE THESE ── */
-      --YOUR_NAME:             "Chanveersingh";   /* display only, used in JS below */
+     
+      --YOUR_NAME:             "Chanveersingh";  
       --YOUR_AGE:              "18";
       --YOUR_EXPERIENCE:       "1 Month — Google Internship Program";
     }
@@ -45,7 +43,6 @@
       overflow-x: hidden;
     }
 
-    /* ── Ambient orbs ── */
     body::before, body::after {
       content: '';
       position: fixed;
@@ -65,10 +62,7 @@
       background: radial-gradient(circle, rgba(60,60,60,0.15) 0%, transparent 70%);
     }
 
-    /* =========================================================
-       GLASS UTILITY
-       ========================================================= */
-    .glass {
+   .glass {
       background: var(--glass-bg);
       border: 1px solid var(--glass-border);
       backdrop-filter: blur(24px) saturate(180%);
@@ -80,10 +74,6 @@
       border-color: rgba(255,255,255,0.18);
       transition: all 0.3s ease;
     }
-
-    /* =========================================================
-       NAV
-       ========================================================= */
     nav {
       position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
       z-index: 999;
@@ -110,9 +100,6 @@
       background: rgba(255,255,255,0.08);
     }
 
-    /* =========================================================
-       HERO
-       ========================================================= */
     #hero {
       min-height: 100vh;
       display: flex;
@@ -138,15 +125,6 @@
       animation: spin 8s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ── 📸 PHOTO: Replace the src below with your Google Drive direct image link ── */
-    /* HOW TO GET GOOGLE DRIVE DIRECT LINK:
-       1. Upload photo to Google Drive
-       2. Right-click → Share → Anyone with link → Copy link
-          Example link: https://drive.google.com/file/d/FILE_ID/view?usp=sharing
-       3. Replace FILE_ID below:
-          https://drive.google.com/uc?export=view&id=FILE_ID
-    */
     .avatar-placeholder {
       width: 100%; height: 100%;
       border-radius: 50%;
@@ -286,9 +264,6 @@
       50% { transform: translateX(-50%) translateY(6px); opacity: 1; }
     }
 
-    /* =========================================================
-       SECTIONS
-       ========================================================= */
     section {
       position: relative; z-index: 1;
       padding: 80px 24px;
@@ -313,9 +288,7 @@
       margin-bottom: 48px;
     }
 
-    /* =========================================================
-       ABOUT CARD
-       ========================================================= */
+
     .about-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -346,9 +319,7 @@
       grid-column: 1 / -1;
     }
 
-    /* =========================================================
-       SKILLS
-       ========================================================= */
+
     .skills-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -378,9 +349,6 @@
       letter-spacing: 0.05em;
     }
 
-    /* =========================================================
-       ROLES
-       ========================================================= */
     .roles-list {
       display: flex; flex-wrap: wrap; gap: 12px;
     }
@@ -401,9 +369,6 @@
       transform: translateY(-2px);
     }
 
-    /* =========================================================
-       LINKS / CONNECT
-       ========================================================= */
     .links-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -430,9 +395,6 @@
       color: var(--text-muted);
     }
 
-    /* =========================================================
-       FOOTER
-       ========================================================= */
     footer {
       text-align: center;
       padding: 40px 24px;
@@ -459,9 +421,7 @@
     .reveal-delay-3 { transition-delay: 0.3s; }
     .reveal-delay-4 { transition-delay: 0.4s; }
 
-    /* =========================================================
-       EXPERIENCE TIMELINE
-       ========================================================= */
+   
     .timeline {
       display: flex; flex-direction: column; gap: 20px;
     }
@@ -521,13 +481,7 @@
     </p>
 
     <div class="hero-cta">
-      <!--
-        ════════════════════════════════
-        🔗 REPLACE THESE LINKS:
-        - YOUR_LINKEDIN_URL   → e.g. https://linkedin.com/in/yourname
-        - YOUR_GITHUB_URL     → e.g. https://github.com/yourusername
-        ════════════════════════════════
-      -->
+     
       <a href="https://www.linkedin.com/in/chanveersingh2008/" target="_blank" class="btn btn-primary">
         💼 LinkedIn Profile
       </a>
@@ -547,7 +501,7 @@
   <!-- ── ABOUT ── -->
   <section id="about">
     <p class="section-label reveal">About Me</p>
-    <h2 class="section-title reveal">I,am a Student Developer Designer & Hustler.<br/>I love to learn new things also LIFE</h2>
+    <h2 class="section-title reveal">A Student Developer Designer & Hustler.<br/>☠️</h2>
 
     <div class="about-grid">
       <div class="about-card glass reveal reveal-delay-1">
@@ -610,7 +564,6 @@
         </div>
       </div>
 
-      <!-- ── ADD MORE EXPERIENCE CARDS HERE if needed ── -->
     </div>
   </section>
 
@@ -722,13 +675,7 @@
 
     <div class="links-grid">
 
-      <!--
-        ════════════════════════════════════════════════════
-        🔗 REPLACE ALL LINKS BELOW:
-        ════════════════════════════════════════════════════
-      -->
-
-      <!-- LINKEDIN -->
+     
       <a href="https://www.linkedin.com/in/chanveersingh2008/" target="_blank" class="link-card glass reveal reveal-delay-1">
         <div class="lc-icon">💼</div>
         <div>
