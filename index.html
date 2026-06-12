@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chanveersingh — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    /* =========================================================
+       🎨 DESIGN TOKENS — iOS 27 Glass / Dark Theme
+       ========================================================= */
+    :root {
+      --bg-base:        #0a0a0a;
+      --bg-deep:        #050505;
+      --glass-bg:       rgba(255, 255, 255, 0.05);
+      --glass-bg-hover: rgba(255, 255, 255, 0.09);
+      --glass-border:   rgba(255, 255, 255, 0.12);
+      --glass-shadow:   0 8px 32px rgba(0, 0, 0, 0.6), 0 1px 0 rgba(255,255,255,0.06) inset;
+      --accent:         #a0a0a0;
+      --accent-bright:  #d0d0d0;
+      --text-primary:   #f0f0f0;
+      --text-secondary: #888;
+      --text-muted:     #555;
+      --radius-sm:      12px;
+      --radius-md:      20px;
+      --radius-lg:      32px;
+      --radius-xl:      48px;
+
+      /* ── 🔧 CHANGE THESE ── */
+      --YOUR_NAME:             "Chanveersingh";   /* display only, used in JS below */
+      --YOUR_AGE:              "18";
+      --YOUR_EXPERIENCE:       "1 Month — Google Internship Program";
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg-base);
+      color: var(--text-primary);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── Ambient orbs ── */
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::before {
+      width: 600px; height: 600px;
+      top: -200px; left: -200px;
+      background: radial-gradient(circle, rgba(80,80,80,0.18) 0%, transparent 70%);
+    }
+    body::after {
+      width: 500px; height: 500px;
+      bottom: -150px; right: -150px;
+      background: radial-gradient(circle, rgba(60,60,60,0.15) 0%, transparent 70%);
+    }
+
+    /* =========================================================
+       GLASS UTILITY
+       ========================================================= */
+    .glass {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      box-shadow: var(--glass-shadow);
+    }
+    .glass:hover {
+      background: var(--glass-bg-hover);
+      border-color: rgba(255,255,255,0.18);
+      transition: all 0.3s ease;
+    }
+
+    /* =========================================================
+       NAV
+       ========================================================= */
+    nav {
+      position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+      z-index: 999;
+      display: flex; gap: 8px; align-items: center;
+      padding: 10px 20px;
+      border-radius: var(--radius-xl);
+      background: rgba(15,15,15,0.7);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+    }
+    nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 99px;
+      transition: all 0.25s ease;
+      letter-spacing: 0.02em;
+    }
+    nav a:hover {
+      color: var(--text-primary);
+      background: rgba(255,255,255,0.08);
+    }
+
+    /* =========================================================
+       HERO
+       ========================================================= */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 100px 24px 60px;
+      position: relative;
+    }
+
+    .avatar-wrap {
+      position: relative;
+      width: 140px; height: 140px;
+      margin: 0 auto 32px;
+    }
+    .avatar-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, rgba(160,160,160,0.6), transparent 60%, rgba(160,160,160,0.3), transparent);
+      animation: spin 8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── 📸 PHOTO: Replace the src below with your Google Drive direct image link ── */
+    /* HOW TO GET GOOGLE DRIVE DIRECT LINK:
+       1. Upload photo to Google Drive
+       2. Right-click → Share → Anyone with link → Copy link
+          Example link: https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+       3. Replace FILE_ID below:
+          https://drive.google.com/uc?export=view&id=FILE_ID
+    */
+    .avatar-placeholder {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1c1c1e, #2c2c2e);
+      border: 2px solid rgba(255,255,255,0.15);
+      align-items: center; justify-content: center;
+      font-size: 42px;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      color: #ccc;
+      letter-spacing: -2px;
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    .avatar {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      position: relative;
+      z-index: 1;
+      background: rgba(255,255,255,0.05);
+      border: 2px solid rgba(255,255,255,0.15);
+    }
+
+    .avatar-placeholder {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1c1c1e, #2c2c2e);
+      border: 2px solid rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 52px;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      color: #ccc;
+      letter-spacing: -2px;
+      position: relative; z-index: 1;
+      user-select: none;
+    }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px;
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .badge .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #4ade80;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    h1 {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      background: linear-gradient(135deg, #f0f0f0 0%, #888 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+    }
+
+    .tagline {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: var(--text-secondary);
+      max-width: 560px;
+      margin: 0 auto 40px;
+      font-weight: 300;
+    }
+
+    .hero-cta {
+      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+    }
+
+    .btn {
+      padding: 12px 28px;
+      border-radius: 99px;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-flex; align-items: center; gap: 8px;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background: rgba(255,255,255,0.12);
+      color: var(--text-primary);
+      border: 1px solid rgba(255,255,255,0.2);
+      backdrop-filter: blur(12px);
+    }
+    .btn-primary:hover {
+      background: rgba(255,255,255,0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .btn-ghost:hover {
+      color: var(--text-primary);
+      border-color: rgba(255,255,255,0.2);
+      transform: translateY(-2px);
+    }
+
+    /* scroll hint */
+    .scroll-hint {
+      position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+      color: var(--text-muted);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      animation: fadeUpDown 2.5s ease-in-out infinite;
+    }
+    .scroll-hint svg { opacity: 0.4; }
+    @keyframes fadeUpDown {
+      0%,100% { transform: translateX(-50%) translateY(0); opacity: 0.5; }
+      50% { transform: translateX(-50%) translateY(6px); opacity: 1; }
+    }
+
+    /* =========================================================
+       SECTIONS
+       ========================================================= */
+    section {
+      position: relative; z-index: 1;
+      padding: 80px 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: var(--text-primary);
+      margin-bottom: 48px;
+    }
+
+    /* =========================================================
+       ABOUT CARD
+       ========================================================= */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 700px) { .about-grid { grid-template-columns: 1fr; } }
+
+    .about-card {
+      padding: 32px;
+      border-radius: var(--radius-lg);
+      transition: transform 0.3s ease;
+    }
+    .about-card:hover { transform: translateY(-4px); }
+    .about-card .card-icon { font-size: 32px; margin-bottom: 16px; }
+    .about-card h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+    .about-card p {
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .about-card.wide {
+      grid-column: 1 / -1;
+    }
+
+    /* =========================================================
+       SKILLS
+       ========================================================= */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+    }
+
+    .skill-chip {
+      padding: 16px 20px;
+      border-radius: var(--radius-md);
+      display: flex; align-items: center; gap: 12px;
+      transition: all 0.3s ease;
+      cursor: default;
+    }
+    .skill-chip:hover {
+      transform: translateY(-3px) scale(1.02);
+    }
+    .skill-chip .skill-icon { font-size: 22px; flex-shrink: 0; }
+    .skill-chip .skill-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+    .skill-chip .skill-cat {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      letter-spacing: 0.05em;
+    }
+
+    /* =========================================================
+       ROLES
+       ========================================================= */
+    .roles-list {
+      display: flex; flex-wrap: wrap; gap: 12px;
+    }
+    .role-tag {
+      padding: 12px 24px;
+      border-radius: 99px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--accent-bright);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(12px);
+      transition: all 0.3s ease;
+    }
+    .role-tag:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.2);
+      transform: translateY(-2px);
+    }
+
+    /* =========================================================
+       LINKS / CONNECT
+       ========================================================= */
+    .links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .link-card {
+      padding: 28px 24px;
+      border-radius: var(--radius-lg);
+      text-decoration: none;
+      display: flex; flex-direction: column; gap: 12px;
+      transition: all 0.3s ease;
+    }
+    .link-card:hover {
+      transform: translateY(-4px);
+    }
+    .link-card .lc-icon { font-size: 28px; }
+    .link-card .lc-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .link-card .lc-handle {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+    footer {
+      text-align: center;
+      padding: 40px 24px;
+      color: var(--text-muted);
+      font-size: 13px;
+      position: relative; z-index: 1;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    /* =========================================================
+       ANIMATIONS — scroll reveal
+       ========================================================= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* =========================================================
+       EXPERIENCE TIMELINE
+       ========================================================= */
+    .timeline {
+      display: flex; flex-direction: column; gap: 20px;
+    }
+    .tl-item {
+      padding: 28px 32px;
+      border-radius: var(--radius-lg);
+      display: flex; gap: 20px; align-items: flex-start;
+      transition: transform 0.3s ease;
+    }
+    .tl-item:hover { transform: translateY(-4px); }
+    .tl-dot {
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--accent);
+      margin-top: 6px; flex-shrink: 0;
+      box-shadow: 0 0 12px rgba(160,160,160,0.4);
+    }
+    .tl-content h3 {
+      font-size: 16px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px;
+    }
+    .tl-content .tl-meta {
+      font-size: 12px; color: var(--text-muted); margin-bottom: 10px;
+      letter-spacing: 0.04em;
+    }
+    .tl-content p { font-size: 14px; color: var(--text-secondary); }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ── -->
+  <nav>
+    <a href="#hero">Home</a>
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#roles">Roles</a>
+    <a href="#connect">Connect</a>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section id="hero">
+    <div class="badge"><span class="dot"></span> Open to Opportunities</div>
+
+    <div class="avatar-wrap">
+      <img
+        class="avatar"
+        src="https://raw.githubusercontent.com/chanveersinghdev/assets/main/profile.png"
+        alt="Chanveersingh"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        style="width:100%;height:100%;border-radius:50%;object-fit:cover;position:relative;z-index:1;border:2px solid rgba(255,255,255,0.15);"
+      />
+      <div class="avatar-placeholder" style="display:none;">CS</div>
+    </div>
+
+    <h1>Chanveersingh</h1>
+    <p class="tagline">
+      Developer · Designer · AI Explorer<br/>
+      Building at the intersection of code, creativity, and intelligence.
+    </p>
+
+    <div class="hero-cta">
+      <!--
+        ════════════════════════════════
+        🔗 REPLACE THESE LINKS:
+        - YOUR_LINKEDIN_URL   → e.g. https://linkedin.com/in/yourname
+        - YOUR_GITHUB_URL     → e.g. https://github.com/yourusername
+        ════════════════════════════════
+      -->
+      <a href="https://www.linkedin.com/in/chanveersingh2008/" target="_blank" class="btn btn-primary">
+        💼 LinkedIn Profile
+      </a>
+      <a href="https://github.com/rehburnoorsingh-alt" target="_blank" class="btn btn-ghost">
+        🐙 GitHub
+      </a>
+    </div>
+
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M12 5v14M5 12l7 7 7-7"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ── ABOUT ── -->
+  <section id="about">
+    <p class="section-label reveal">About Me</p>
+    <h2 class="section-title reveal">18 years old.<br/>1 month of Google magic.</h2>
+
+    <div class="about-grid">
+      <div class="about-card glass reveal reveal-delay-1">
+        <div class="card-icon">🎓</div>
+        <h3>Age & Experience</h3>
+        <p>
+          18 years old with <strong>1 month of professional experience</strong> at Google's Internship Program —
+          jumping headfirst into real-world tech at one of the world's biggest companies.
+        </p>
+      </div>
+
+      <div class="about-card glass reveal reveal-delay-2">
+        <div class="card-icon">🚀</div>
+        <h3>What I Build</h3>
+        <p>
+          From Flutter apps that run everywhere to Python data pipelines, 
+          from generative AI workflows to polished graphic designs — I ship
+          things that look great and work better.
+        </p>
+      </div>
+
+      <div class="about-card glass reveal reveal-delay-3">
+        <div class="card-icon">🤖</div>
+        <h3>AI & Agentic Work</h3>
+        <p>
+          Deep experience with LLMs, generative AI, prompt engineering, and 
+          building agentic task pipelines. I speak fluently to machines and
+          make them do the heavy lifting.
+        </p>
+      </div>
+
+      <div class="about-card glass reveal reveal-delay-4">
+        <div class="card-icon">🎨</div>
+        <h3>Creative Side</h3>
+        <p>
+          Photoshop, Canva, Premiere Pro, CapCut, AI visual editing — I bridge
+          the gap between engineering and design, making products feel as good
+          as they function.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── EXPERIENCE ── -->
+  <section id="experience">
+    <p class="section-label reveal">Experience</p>
+    <h2 class="section-title reveal">Where I've Worked</h2>
+
+    <div class="timeline">
+      <div class="tl-item glass reveal reveal-delay-1">
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <h3>Google Internship Program</h3>
+          <div class="tl-meta">GOOGLE · 1 MONTH · 2024</div>
+          <p>
+            Gained hands-on exposure to large-scale systems, collaborated with senior engineers,
+            and sharpened skills in data analysis, Python workflows, and AI tooling inside one
+            of the world's most innovative tech environments.
+          </p>
+        </div>
+      </div>
+
+      <!-- ── ADD MORE EXPERIENCE CARDS HERE if needed ── -->
+    </div>
+  </section>
+
+  <!-- ── SKILLS ── -->
+  <section id="skills">
+    <p class="section-label reveal">Capabilities</p>
+    <h2 class="section-title reveal">Skills & Tools</h2>
+
+    <div class="skills-grid">
+      <!-- Row: Languages & Dev -->
+      <div class="skill-chip glass reveal reveal-delay-1">
+        <span class="skill-icon">🐍</span>
+        <div><div class="skill-name">Python</div><div class="skill-cat">Language</div></div>
+      </div>
+      <div class="skill-chip glass reveal reveal-delay-1">
+        <span class="skill-icon">📊</span>
+        <div><div class="skill-name">Data Analysis</div><div class="skill-cat">Python / Pandas</div></div>
+      </div>
+      <div class="skill-chip glass reveal reveal-delay-2">
+        <span class="skill-icon">🗄️</span>
+        <div><div class="skill-name">SQL</div><div class="skill-cat">Database</div></div>
+      </div>
+      <div class="skill-chip glass reveal reveal-delay-2">
+        <span class="skill-icon">📱</span>
+        <div><div class="skill-name">Flutter</div><div class="skill-cat">Cross-platform</div></div>
+      </div>
+      <div class="skill-chip glass reveal reveal-delay-3">
+        <span class="skill-icon">💻</span>
+        <div><div class="skill-name">Visual Basic</div><div class="skill-cat">Language</div></div>
+      </div>
+      <!-- AI & ML -->
+      <div class="skill-chip glass reveal reveal-delay-1">
+        <span class="skill-icon">🧠</span>
+        <div><div class="skill-name">Generative AI</div><div class="skill-cat">AI</div></div>
+      </div>
+      <div class="skill-chip glass reveal reveal-delay-2">
+        <span class="skill-icon">🤖</span>
+        <div><div class="skill-name">LLMs</div><div class="skill-cat">AI / NLP</div></div>
+      </div>
+      <div class="skill-chip glass reveal reveal-delay-3">
+        <span class="skill-icon">⚡</span>
+        <div><div class="skill-name">Prompt Engineering</div><div class="skill-cat">AI</div></div>
+      </div>
+      <div class="skill-chip glass reveal reveal-delay-4">
+        <span class="skill-icon">📈</span>
+        <div><div class="skill-name">Data Scientist</div><div class="skill-cat">ML / Analytics</div></div>
+      </div>
+      <!-- Infra -->
+      <div class="skill-chip glass reveal reveal-delay-1">
+        <span class="skill-icon">🌐</span>
+        <div><div class="skill-name">Network Engg.</div><div class="skill-cat">Infrastructure</div></div>
+      </div>
+      <div class="skill-chip glass reveal reveal-delay-2">
+        <span class="skill-icon">🖥️</span>
+        <div><div class="skill-name">Virtual Machines</div><div class="skill-cat">Infrastructure</div></div>
+      </div>
+      <div class="skill-chip glass reveal reveal-delay-3">
+        <span class="skill-icon">🗃️</span>
+        <div><div class="skill-name">Servers</div><div class="skill-cat">Infrastructure</div></div>
+      </div>
+      <!-- Design -->
+      <div class="skill-chip glass reveal reveal-delay-1">
+        <span class="skill-icon">🎨</span>
+        <div><div class="skill-name">Photoshop</div><div class="skill-cat">Design</div></div>
+      </div>
+      <div class="skill-chip glass reveal reveal-delay-2">
+        <span class="skill-icon">✏️</span>
+        <div><div class="skill-name">Canva</div><div class="skill-cat">Design</div></div>
+      </div>
+      <div class="skill-chip glass reveal reveal-delay-3">
+        <span class="skill-icon">🎬</span>
+        <div><div class="skill-name">Premiere Pro</div><div class="skill-cat">Video</div></div>
+      </div>
+      <div class="skill-chip glass reveal reveal-delay-4">
+        <span class="skill-icon">✂️</span>
+        <div><div class="skill-name">CapCut</div><div class="skill-cat">Video</div></div>
+      </div>
+      <div class="skill-chip glass reveal reveal-delay-1">
+        <span class="skill-icon">🖼️</span>
+        <div><div class="skill-name">AI Visual Editing</div><div class="skill-cat">Creative AI</div></div>
+      </div>
+      <div class="skill-chip glass reveal reveal-delay-2">
+        <span class="skill-icon">🖌️</span>
+        <div><div class="skill-name">Graphics Design</div><div class="skill-cat">Visual</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ROLES ── -->
+  <section id="roles">
+    <p class="section-label reveal">What I Do</p>
+    <h2 class="section-title reveal">My Roles</h2>
+
+    <div class="roles-list">
+      <div class="role-tag reveal reveal-delay-1">🎨 Graphics Designer</div>
+      <div class="role-tag reveal reveal-delay-2">⚡ Prompt Engineer</div>
+      <div class="role-tag reveal reveal-delay-3">🤖 Agentic Task Specialist</div>
+      <div class="role-tag reveal reveal-delay-4">📱 Flutter Developer</div>
+      <div class="role-tag reveal reveal-delay-1">🐍 Python Developer</div>
+      <div class="role-tag reveal reveal-delay-2">📊 Data Analyst</div>
+      <div class="role-tag reveal reveal-delay-3">🧠 AI Explorer</div>
+    </div>
+  </section>
+
+  <!-- ── CONNECT ── -->
+  <section id="connect">
+    <p class="section-label reveal">Get in Touch</p>
+    <h2 class="section-title reveal">Let's Connect</h2>
+
+    <div class="links-grid">
+
+      <!--
+        ════════════════════════════════════════════════════
+        🔗 REPLACE ALL LINKS BELOW:
+        ════════════════════════════════════════════════════
+      -->
+
+      <!-- LINKEDIN -->
+      <a href="https://www.linkedin.com/in/chanveersingh2008/" target="_blank" class="link-card glass reveal reveal-delay-1">
+        <div class="lc-icon">💼</div>
+        <div>
+          <div class="lc-name">LinkedIn</div>
+          <div class="lc-handle">linkedin.com/in/chanveersingh2008</div>
+        </div>
+      </a>
+
+      <!-- GITHUB -->
+      <a href="https://github.com/rehburnoorsingh-alt" target="_blank" class="link-card glass reveal reveal-delay-2">
+        <div class="lc-icon">🐙</div>
+        <div>
+          <div class="lc-name">GitHub</div>
+          <div class="lc-handle">github.com/rehburnoorsingh-alt</div>
+        </div>
+      </a>
+
+      <!-- GOOGLE DEVELOPER -->
+      <a href="https://gdg.community.dev/u/mrm7ja/#/about" target="_blank" class="link-card glass reveal reveal-delay-3">
+        <div class="lc-icon">🔍</div>
+        <div>
+          <div class="lc-name">Google Developer</div>
+          <div class="lc-handle">gdg.community.dev/u/mrm7ja</div>
+        </div>
+      </a>
+
+      <!-- EMAIL — optional -->
+      <a href="mailto:YOUR_EMAIL@gmail.com" class="link-card glass reveal reveal-delay-4">
+        <div class="lc-icon">✉️</div>
+        <div>
+          <div class="lc-name">Email</div>
+          <!--  ↓ Replace with your email -->
+          <div class="lc-handle">YOUR_EMAIL@gmail.com</div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <p>Crafted by <strong style="color:var(--text-secondary)">Chanveersingh</strong> · 18 · Google Intern · © 2025</p>
+    <p style="margin-top:8px; font-size:11px;">Built with HTML · CSS · Vanilla JS</p>
+  </footer>
+
+  <!-- ── JS: Scroll reveal ── -->
+  <script>
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Stagger skill chips
+    document.querySelectorAll('.skill-chip').forEach((chip, i) => {
+      chip.style.transitionDelay = `${(i % 6) * 0.07}s`;
+    });
+  </script>
+
+</body>
+</html>
