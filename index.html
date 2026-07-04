@@ -446,6 +446,112 @@
       letter-spacing: 0.04em;
     }
     .tl-content p { font-size: 14px; color: var(--text-secondary); }
+
+    /* =========================================================
+       SUPPORT WIDGET — floating pill + QR dropdown
+       ========================================================= */
+    .support-widget {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 997;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+    }
+
+    .support-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 22px;
+      border-radius: 99px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: var(--text-primary);
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.18);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      box-shadow: var(--glass-shadow);
+      cursor: pointer;
+      animation: support-sway 3.2s ease-in-out infinite;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    .support-btn:hover {
+      background: rgba(255,255,255,0.16);
+      border-color: rgba(255,255,255,0.28);
+      animation-play-state: paused;
+    }
+    .support-btn .support-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent-bright);
+      box-shadow: 0 0 10px rgba(208,208,208,0.7);
+      animation: support-blink 1.6s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes support-sway {
+      0%, 100% { transform: translateX(0); }
+      50%      { transform: translateX(-10px); }
+    }
+    @keyframes support-blink {
+      0%, 100% { opacity: 1; }
+      50%      { opacity: 0.25; }
+    }
+
+    .support-dropdown {
+      max-height: 0;
+      width: 220px;
+      opacity: 0;
+      transform: translateY(10px) scale(0.95);
+      overflow: hidden;
+      pointer-events: none;
+      border-radius: var(--radius-lg);
+      transition: max-height 0.35s ease, opacity 0.3s ease, transform 0.3s ease, padding 0.35s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
+      padding: 0 20px;
+    }
+    .support-dropdown.open {
+      max-height: 320px;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+      padding: 22px 20px;
+    }
+    .support-dropdown img {
+      width: 160px;
+      height: 160px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(255,255,255,0.15);
+      background: #fff;
+      padding: 8px;
+      object-fit: contain;
+    }
+    .support-dropdown .support-fallback {
+      font-size: 12px;
+      color: var(--text-muted);
+      padding: 40px 0;
+    }
+    .support-dropdown p {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    @media (max-width: 480px) {
+      .support-widget { right: 16px; bottom: 16px; }
+      .support-dropdown { width: 180px; }
+      .support-dropdown img { width: 130px; height: 130px; }
+    }
   </style>
 </head>
 <body>
@@ -721,6 +827,23 @@
     <p style="margin-top:8px; font-size:11px;">Built with HTML · CSS · Vanilla JS</p>
   </footer>
 
+  <!-- ── SUPPORT WIDGET ── -->
+  <div class="support-widget">
+    <div class="support-dropdown" id="supportDropdown">
+      <img
+        src="https://raw.githubusercontent.com/chanveersinghdev/assets/main/qr.jpeg"
+        alt="Scan to support Chanveersingh"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+      />
+      <p class="support-fallback" style="display:none;">QR code coming soon</p>
+      <p>Scan to support my work 💛</p>
+    </div>
+
+    <button class="support-btn" id="supportBtn" onclick="toggleSupportMenu()" aria-expanded="false" aria-controls="supportDropdown">
+      <span class="support-dot"></span> Support Me
+    </button>
+  </div>
+
   <!-- ── JS: Scroll reveal ── -->
   <script>
     const observer = new IntersectionObserver(entries => {
@@ -736,6 +859,22 @@
     // Stagger skill chips
     document.querySelectorAll('.skill-chip').forEach((chip, i) => {
       chip.style.transitionDelay = `${(i % 6) * 0.07}s`;
+    });
+
+    // Support widget toggle
+    function toggleSupportMenu() {
+      const dropdown = document.getElementById('supportDropdown');
+      const btn = document.getElementById('supportBtn');
+      const isOpen = dropdown.classList.toggle('open');
+      btn.setAttribute('aria-expanded', isOpen);
+    }
+
+    document.addEventListener('click', (e) => {
+      const widget = document.querySelector('.support-widget');
+      if (widget && !widget.contains(e.target)) {
+        document.getElementById('supportDropdown').classList.remove('open');
+        document.getElementById('supportBtn').setAttribute('aria-expanded', 'false');
+      }
     });
   </script>
 
