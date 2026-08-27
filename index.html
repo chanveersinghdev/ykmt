@@ -554,7 +554,7 @@
     }
 
     /* =========================================================
-       MUSIC WIDGET — floating toggle
+       MUSIC WIDGET — floating disc icon (always playing, no controls)
        ========================================================= */
     .music-widget {
       position: fixed;
@@ -576,18 +576,24 @@
       backdrop-filter: blur(24px) saturate(180%);
       -webkit-backdrop-filter: blur(24px) saturate(180%);
       box-shadow: var(--glass-shadow);
-      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .disc-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      animation: music-spin 10s linear infinite;
+    }
+
+    .disc-fallback {
       font-size: 18px;
-      transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+      display: inline-block;
+      animation: music-spin 10s linear infinite;
     }
-    .music-btn:hover {
-      background: rgba(255,255,255,0.16);
-      border-color: rgba(255,255,255,0.28);
-      transform: translateY(-2px);
-    }
-    .music-btn.playing {
-      animation: music-spin 6s linear infinite;
-    }
+
     @keyframes music-spin {
       to { transform: rotate(360deg); }
     }
@@ -887,15 +893,21 @@
     </button>
   </div>
 
-  <!-- ── MUSIC WIDGET ── -->
-  <audio id="bgMusic" loop preload="auto">
-    <source src="https://raw.githubusercontent.com/chanveersinghdev/assets/main/bg" type="audio/mpeg" />
+  <!-- ── MUSIC WIDGET — always plays, spinning disc icon, no stop control ── -->
+  <audio id="bgMusic" loop preload="auto" autoplay>
+    <source src="https://raw.githubusercontent.com/chanveersinghdev/assets/main/Bg_Music.mp3" type="audio/mpeg" />
   </audio>
 
   <div class="music-widget">
-    <button class="music-btn" id="musicBtn" onclick="toggleMusic()" aria-label="Toggle background music" aria-pressed="false">
-      🔇
-    </button>
+    <div class="music-btn" aria-hidden="true">
+      <img
+        class="disc-icon"
+        src="https://raw.githubusercontent.com/chanveersinghdev/assets/main/disc.png"
+        alt=""
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';"
+      />
+      <span class="disc-fallback" style="display:none;">🎵</span>
+    </div>
   </div>
 
   <!-- ── JS: Scroll reveal ── -->
@@ -931,55 +943,25 @@
       }
     });
 
-    // ── Background music ──
-    // Browsers block audio-with-sound autoplay, so: start muted immediately,
-    // then unmute + keep playing on the visitor's very first interaction.
+    // ── Background music (always on, no pause/mute control) ──
+    // Browsers block audio-with-sound autoplay, so it starts muted the
+    // instant the page loads, then unmutes itself on the visitor's very
+    // first interaction (click/tap/scroll/keypress) — there's no way
+    // around this browser restriction, only around delaying it.
     const bgMusic = document.getElementById('bgMusic');
-    const musicBtn = document.getElementById('musicBtn');
-    let userHasToggled = false;
-
-    function setMusicIcon() {
-      if (bgMusic.paused) {
-        musicBtn.textContent = '🔇';
-        musicBtn.classList.remove('playing');
-        musicBtn.setAttribute('aria-pressed', 'false');
-      } else if (bgMusic.muted) {
-        musicBtn.textContent = '🔈';
-        musicBtn.classList.remove('playing');
-        musicBtn.setAttribute('aria-pressed', 'false');
-      } else {
-        musicBtn.textContent = '🎵';
-        musicBtn.classList.add('playing');
-        musicBtn.setAttribute('aria-pressed', 'true');
-      }
-    }
-
-    function unmuteOnFirstInteraction() {
-      if (userHasToggled) return; // don't override an explicit manual pause
-      bgMusic.muted = false;
-      bgMusic.play().catch(() => {});
-      setMusicIcon();
-    }
 
     window.addEventListener('load', () => {
       bgMusic.muted = true;
       bgMusic.play().catch(() => {});
-      setMusicIcon();
-      ['click', 'touchstart', 'keydown', 'scroll'].forEach(evt => {
-        document.addEventListener(evt, unmuteOnFirstInteraction, { once: true, passive: true });
-      });
-    });
 
-    function toggleMusic() {
-      userHasToggled = true;
-      if (bgMusic.paused) {
+      const unmute = () => {
         bgMusic.muted = false;
         bgMusic.play().catch(() => {});
-      } else {
-        bgMusic.pause();
-      }
-      setMusicIcon();
-    }
+      };
+      ['click', 'touchstart', 'keydown', 'scroll'].forEach(evt => {
+        document.addEventListener(evt, unmute, { once: true, passive: true });
+      });
+    });
   </script>
 
 </body>
